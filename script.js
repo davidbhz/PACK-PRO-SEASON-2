@@ -174,7 +174,6 @@ const genericPopupMessages = [
   "Por pouca diferença, o Pro entrega muito mais.",
   "Pack Básico liberado por R$24,87.",
   "Pack Pro completo por R$29,57.",
-  "Oferta low ticket ativa agora.",
   "Acesso vitalício disponível nos dois packs.",
   "Pack Pro inclui tudo do Básico + bônus extras."
 ];
@@ -184,18 +183,19 @@ const popupLabel = document.querySelector("#popup-label");
 const popupTitle = document.querySelector("#popup-title");
 const popupText = document.querySelector("#popup-text");
 const popupActions = document.querySelector("#popup-actions");
+const PURCHASE_POPUP_TIMINGS = {
+  first: 15000,
+  second: 18000,
+  recurring: 60000,
+  visible: 5500
+};
 let popupTimer;
 let popupAutoCloseTimer;
-let popupStage = 0;
 let genericMessageIndex = 0;
-let lastPopupClosedAt = 0;
-let purchaseButtonClicked = false;
+let purchasePopupCount = 0;
 
 document.querySelectorAll("[data-pro-checkout], [data-basic-checkout]").forEach(link => {
-  link.addEventListener("click", () => {
-    purchaseButtonClicked = true;
-    closePopup(false);
-  });
+  link.addEventListener("click", () => hidePurchasePopup(false));
 });
 
 function getRandomPopupMessage() {
@@ -214,15 +214,6 @@ function getRandomPopupMessage() {
   return { label: "Plutão Sensi", title: "Oferta ativa", text: message };
 }
 
-function createPopupButton(label, className, action) {
-  const button = document.createElement("button");
-  button.type = "button";
-  button.className = `button ${className}`;
-  button.textContent = label;
-  button.addEventListener("click", action);
-  return button;
-}
-
 function importantActionIsVisible() {
   return ["#diagnostico", "#planos", ".gallery-section", ".reviews-section", ".faq-section", ".final-section"].some(selector => {
     const element = document.querySelector(selector);
@@ -232,92 +223,48 @@ function importantActionIsVisible() {
   });
 }
 
-function showConversionPopup(data = getRandomPopupMessage()) {
-  if (!popup.hidden || document.hidden || importantActionIsVisible()) {
-    scheduleNextPopup(15000);
-    return false;
+function showPurchasePopup() {
+  if (!popup.hidden) {
+    schedulePurchasePopup(1000);
+    return;
   }
-
   clearTimeout(popupTimer);
   clearTimeout(popupAutoCloseTimer);
-  popup.classList.toggle("retention", Boolean(data.retention));
-  popupLabel.textContent = data.label || "Plutão Sensi";
+  const data = getRandomPopupMessage();
+  popup.classList.remove("retention");
+  popupLabel.textContent = data.label;
   popupTitle.textContent = data.title;
   popupText.textContent = data.text;
   popupActions.replaceChildren();
 
-  (data.actions || []).forEach(action => {
-    popupActions.append(createPopupButton(action.label, action.className, action.handler));
-  });
-
   popup.hidden = false;
-  requestAnimationFrame(() => popup.classList.add("show"));
-  popupAutoCloseTimer = setTimeout(() => closePopup(), data.duration || 6500);
-  return true;
+  popup.getBoundingClientRect();
+  popup.classList.add("show");
+  purchasePopupCount += 1;
+  popupAutoCloseTimer = setTimeout(() => hidePurchasePopup(), PURCHASE_POPUP_TIMINGS.visible);
 }
 
-function closePopup(scheduleAnother = true) {
+function hidePurchasePopup(scheduleAnother = true) {
   if (popup.hidden) return;
   clearTimeout(popupAutoCloseTimer);
   popup.classList.remove("show");
-  lastPopupClosedAt = Date.now();
   setTimeout(() => {
     popup.hidden = true;
     popup.classList.remove("retention");
   }, 300);
-  if (scheduleAnother) scheduleNextPopup(popupStage < 2 ? 3000 : randomPopupInterval());
+  if (scheduleAnother) {
+    schedulePurchasePopup(purchasePopupCount === 1 ? PURCHASE_POPUP_TIMINGS.second : PURCHASE_POPUP_TIMINGS.recurring);
+  }
 }
 
-function randomPopupInterval() {
-  return Math.floor(45000 + Math.random() * 45000);
-}
-
-function scheduleNextPopup(delay = randomPopupInterval()) {
+function schedulePurchasePopup(delay) {
   clearTimeout(popupTimer);
-  const elapsedSinceClose = Date.now() - lastPopupClosedAt;
-  const minimumWait = lastPopupClosedAt ? Math.max(0, 45000 - elapsedSinceClose) : 0;
-  popupTimer = setTimeout(runNextPopup, Math.max(delay, minimumWait));
+  popupTimer = setTimeout(showPurchasePopup, delay);
 }
 
-function runNextPopup() {
-  if (popupStage === 0) {
-    const shown = showConversionPopup({
-      retention: true,
-      duration: 7000,
-      label: "Escolha seu pack",
-      title: "Tá em dúvida entre Básico e Pro?",
-      text: "Se você quer só começar, o Básico já ajuda. Mas se quer o pacote completo, o Pro entrega muito mais por pouca diferença.",
-      actions: [
-        { label: "Ver Pack Pro", className: "button-primary", handler: () => { closePopup(); smoothScroll("#pack-pro", "start"); } },
-        { label: "Ver Pack Básico", className: "button-outline", handler: () => { closePopup(); smoothScroll("#pack-basico", "start"); } }
-      ]
-    });
-    if (shown) popupStage = 1;
-    return;
-  }
-
-  if (popupStage === 1 && !purchaseButtonClicked) {
-    const shown = showConversionPopup({
-      retention: true,
-      duration: 7000,
-      label: "Recomendação",
-      title: "Melhor custo-benefício",
-      text: "O Pack Pro inclui tudo do Básico + sensis de famosos, HUDs dos pro players, videoaulas, bônus e atualizações futuras.",
-      actions: [
-        { label: "Quero o Pro", className: "button-primary", handler: () => { purchaseButtonClicked = true; location.href = PRO_CHECKOUT; } },
-        { label: "Continuar vendo", className: "button-outline", handler: () => closePopup() }
-      ]
-    });
-    if (shown) popupStage = 2;
-    return;
-  }
-
-  popupStage = 2;
-  showConversionPopup();
+function startPurchasePopups() {
+  schedulePurchasePopup(PURCHASE_POPUP_TIMINGS.first);
 }
 
-document.querySelector("[data-popup-close]")?.addEventListener("click", () => closePopup());
-addEventListener("scroll", () => {
-  if (!popup.hidden && importantActionIsVisible()) closePopup();
-}, { passive: true });
-scheduleNextPopup(30000);
+document.querySelector("[data-popup-close]")?.addEventListener("click", () => hidePurchasePopup());
+addEventListener("load", startPurchasePopups, { once: true });

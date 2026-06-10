@@ -156,10 +156,10 @@ main { padding-bottom: calc(120px + env(safe-area-inset-bottom)); }
 .recommendation p { margin: 3px 0 0; font-size: .74rem; }
 .recommendation b { color: #fff; }
 .result-actions { width: 100%; max-width: 470px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 15px; }
-.pain-section::before, .about-section::before, .benefits-section::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, transparent, rgba(180,0,0,.035), transparent); }
-.pain-grid, .benefits-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; }
-.pain-card, .benefit-card, .step-card { position: relative; border: 1px solid rgba(255,30,30,.2); background: var(--surface); box-shadow: inset 0 1px rgba(255,255,255,.04); transition: .2s; }
-.pain-card:hover, .benefit-card:hover, .step-card:hover { border-color: var(--red); transform: translateY(-3px); }
+.pain-section::before, .about-section::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, transparent, rgba(180,0,0,.035), transparent); }
+.pain-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; }
+.pain-card, .step-card { position: relative; border: 1px solid rgba(255,30,30,.2); background: var(--surface); box-shadow: inset 0 1px rgba(255,255,255,.04); transition: .2s; }
+.pain-card:hover, .step-card:hover { border-color: var(--red); transform: translateY(-3px); }
 .pain-card { min-height: 135px; display: flex; flex-direction: column; justify-content: flex-end; overflow: hidden; padding: 14px; }
 .pain-card::after { content: ""; position: absolute; right: -35px; top: -35px; width: 80px; height: 80px; border: 1px solid rgba(255,30,30,.18); transform: rotate(45deg); }
 .pain-card b { position: absolute; top: 9px; right: 10px; color: rgba(255,255,255,.18); font-size: .6rem; }
@@ -175,10 +175,6 @@ main { padding-bottom: calc(120px + env(safe-area-inset-bottom)); }
 .about-points span { border: 1px solid rgba(255,255,255,.1); padding: 7px 9px; font-family: Inter, sans-serif; font-size: .68rem; font-weight: 700; }
 .about-points i, .plan-list i { color: var(--green); font-style: normal; }
 .plans-section { overflow: hidden; }
-.urgency-bar { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 5px 10px; margin-bottom: 35px; border: 1px solid rgba(143,17,17,.52); padding: 11px 13px; background: linear-gradient(90deg, rgba(58,7,7,.46), rgba(12,8,8,.9)); box-shadow: inset 0 1px rgba(255,255,255,.04), 0 0 22px rgba(143,17,17,.07); }
-.urgency-fire { grid-row: span 2; font-size: 1.25rem; filter: drop-shadow(0 0 7px var(--red)); }
-.urgency-bar strong { color: #fff; font-size: .72rem; letter-spacing: .05em; text-transform: uppercase; }
-.urgency-bar > span:last-child { color: var(--muted); font-family: Inter, sans-serif; font-size: .63rem; }
 .plans-grid { display: flex; flex-direction: column; gap: 26px; }
 .plan-card { position: relative; border: 1px solid rgba(143,17,17,.58); padding: 20px; overflow: hidden; background: linear-gradient(145deg, rgba(35,12,12,.92), rgba(8,8,8,.98) 58%); box-shadow: 0 25px 65px rgba(0,0,0,.5), inset 0 1px rgba(255,255,255,.04); }
 .plan-card::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(-45deg, rgba(255,255,255,.012) 0 2px, transparent 2px 12px); }
@@ -223,12 +219,6 @@ main { padding-bottom: calc(120px + env(safe-area-inset-bottom)); }
 .pro-value-copy, .value-grid { position: relative; z-index: 1; }
 .value-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px; }
 .value-grid span { min-height: 62px; display: flex; align-items: center; border: 1px solid rgba(255,30,30,.16); padding: 10px; color: #eee2e2; background: rgba(255,255,255,.025); font-family: Inter, sans-serif; font-size: .68rem; font-weight: 700; }
-.benefits-grid { gap: 10px; }
-.benefit-card { min-height: 185px; padding: 15px; overflow: hidden; }
-.benefit-card::before { content: ""; position: absolute; width: 65px; height: 65px; right: -35px; bottom: -35px; border-radius: 50%; background: var(--red); filter: blur(25px); opacity: .12; }
-.benefit-card b { display: inline-block; margin-bottom: 28px; color: var(--red); font-size: .65rem; }
-.benefit-card h3 { font-size: 1rem; }
-.benefit-card p { margin: 0; font-size: .7rem; line-height: 1.45; }
 .steps-grid { display: grid; gap: 10px; }
 .step-card { min-height: 175px; padding: 18px; }
 .step-card span { width: 40px; height: 40px; display: grid; place-items: center; margin-bottom: 28px; border: 1px solid var(--red); color: var(--red); background: rgba(180,0,0,.1); }
@@ -320,7 +310,6 @@ main { padding-bottom: calc(120px + env(safe-area-inset-bottom)); }
   .quiz-card { padding: 28px; }
   .quiz-options { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .pain-grid { grid-template-columns: repeat(4,minmax(0,1fr)); }
-  .benefits-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
   .gallery-card { flex-basis: min(46%, 360px); }
   .review-card { flex-basis: 46%; }
   .final-actions { flex-direction: row; }
@@ -339,7 +328,6 @@ main { padding-bottom: calc(120px + env(safe-area-inset-bottom)); }
   .plan-pro { order: -1; margin-top: 0; }
   .plan-basic { margin-top: 0; }
   .pro-value-panel { grid-template-columns: 1.05fr .95fr; align-items: center; padding: 44px; }
-  .benefits-grid { grid-template-columns: repeat(5,minmax(0,1fr)); }
   .steps-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
   .gallery-card { flex-basis: calc((100% - 32px)/3); width: calc((100% - 32px)/3); max-width: none; min-height: 410px; }
   .reviews-track { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); margin-inline: 0; padding-inline: 0; overflow: visible; }
