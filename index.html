@@ -1,100 +1,100 @@
-const PRO_CHECKOUT = "https://lastlink.com/p/C4894FC56/checkout-payment?af=A74E3D5D7";
-const BASIC_CHECKOUT = "https://lastlink.com/p/C76C7612B/checkout-payment?af=A74E3D5D7";
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#050505">
+  <meta name="description" content="Descubra qual Pack Plutão Sensi combina com seu estilo e organize sua sensibilidade, HUD e jogabilidade no Free Fire.">
+  <title>Plutão Sensi | Pack Básico e Pack Pro</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Pular para o conteúdo</a>
 
-const questions = [
-  {
-    text: "Qual é seu maior problema no Free Fire hoje?",
-    options: ["Minha mira passa do alvo", "Minha mira não sobe capa", "Meu jogo trava ou fica pesado", "Meu HUD/sensi parece desorganizado"]
-  },
-  {
-    text: "Na hora do x1, o que mais te atrapalha?",
-    options: ["Delay no toque", "Falta de controle na mira", "Sensibilidade ruim", "Travamento/FPS caindo"]
-  },
-  {
-    text: "Você já tentou copiar sensi de outros jogadores?",
-    options: ["Sim, mas não ficou bom", "Sim, melhorou pouco", "Nunca testei direito", "Quero uma sensi pronta"]
-  },
-  {
-    text: "O que você quer agora?",
-    options: ["Um pack simples pra começar", "Um pack completo com mais vantagens", "Melhorar mira e HUD", "Ter acesso a métodos e bônus"]
-  }
-];
+  <div class="battle-bg" aria-hidden="true">
+    <span class="smoke smoke-a"></span>
+    <span class="smoke smoke-b"></span>
+    <span class="sparks"></span>
+    <span class="vignette"></span>
+  </div>
 
-const state = { current: 0, answers: [] };
-const quizStage = document.querySelector("#quiz-stage");
-const loadingStage = document.querySelector("#loading-stage");
-const resultStage = document.querySelector("#result-stage");
-const progress = document.querySelector("#quiz-progress");
-const percent = document.querySelector("#quiz-percent");
-const step = document.querySelector("#quiz-step");
-const loadingText = document.querySelector("#loading-text");
+  <header class="site-header" id="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#top" aria-label="Plutão Sensi - início">
+        <span class="brand-icon"><span class="brand-mark">PS</span><img class="logo-image" src="assets/logo-plutao-sensi.png" alt=""></span>
+        <span>PLUTÃO <strong>SENSI</strong></span>
+      </a>
+      <a class="button button-small button-outline" href="#planos">Ver packs</a>
+    </div>
+  </header>
 
-function renderQuestion() {
-  const item = questions[state.current];
-  const value = Math.round(((state.current + 1) / questions.length) * 100);
-  progress.style.width = `${value}%`;
-  percent.textContent = `${value}%`;
-  step.textContent = `Pergunta ${state.current + 1} de ${questions.length}`;
-  quizStage.innerHTML = `
-    <span class="question-label">Marque a opção mais próxima da sua realidade</span>
-    <h3>${item.text}</h3>
-    <div class="quiz-options">
-      ${item.options.map((option, index) => `
-        <button class="quiz-option" type="button" data-option="${index}">
-          <span class="option-letter">${String.fromCharCode(65 + index)}</span>
-          <span class="option-text">${option}</span>
-        </button>`).join("")}
-    </div>`;
-  quizStage.querySelectorAll(".quiz-option").forEach(button => {
-    button.addEventListener("click", () => answer(Number(button.dataset.option)));
-  });
-}
+  <main id="main">
+    <section class="hero section" id="top">
+      <div class="graffiti graffiti-one" aria-hidden="true">SENSI</div>
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <div class="tag"><i></i> Pack de Sensi para Free Fire</div>
+          <h1>Sua mira não é ruim. Sua sensi que tá te <em>sabotando.</em></h1>
+          <p class="hero-lead">Descubra em menos de 30 segundos qual pack combina com seu estilo e pare de jogar com configuração aleatória.</p>
+          <button class="button button-primary button-wide-mobile" type="button" data-scroll-quiz>
+            Fazer diagnóstico
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+          </button>
+          <p class="microcopy"><span></span> Quiz rápido. Resultado na hora.</p>
+          <div class="hero-chips">
+            <span>Mira mais controlada</span>
+            <span>HUD otimizado</span>
+            <span>FPS e toque</span>
+            <span>Pack Básico e Pro</span>
+          </div>
+        </div>
 
-function answer(index) {
-  state.answers[state.current] = questions[state.current].options[index];
-  if (state.current < questions.length - 1) {
-    state.current += 1;
-    renderQuestion();
-    quizStage.querySelector(".quiz-option")?.focus({ preventScroll: true });
-    return;
-  }
-  analyze();
-}
+        <div class="hero-art reveal" aria-label="Visual de batalha Plutão Sensi">
+          <div class="target-rings" aria-hidden="true"><i></i><i></i><i></i></div>
+          <div class="character-fallback">
+            <span>PLUTÃO SENSI</span>
+            <strong>AMASSE<br>NO X1</strong>
+            <small>SENSI • HUD • MÉTODOS</small>
+          </div>
+          <img class="asset-image character-image" src="assets/personagem.png" alt="Personagem do Plutão Sensi">
+          <div class="impact-word word-top">CONTROLE</div>
+          <div class="impact-word word-bottom">RESPOSTA</div>
+          <span class="bullet-hole hole-a" aria-hidden="true"></span>
+          <span class="bullet-hole hole-b" aria-hidden="true"></span>
+        </div>
+      </div>
+    </section>
 
-function analyze() {
-  quizStage.hidden = true;
-  loadingStage.hidden = false;
-  step.textContent = "Análise final";
-  percent.textContent = "100%";
-  progress.style.width = "100%";
-  ["Analisando sua mira...", "Verificando sensibilidade...", "Detectando pontos fracos...", "Preparando recomendação..."].forEach((message, index) => {
-    setTimeout(() => loadingText.textContent = message, index * 500);
-  });
-  setTimeout(() => {
-    loadingStage.hidden = true;
-    resultStage.hidden = false;
-    step.textContent = "Recomendação pronta";
-    resultStage.querySelector("button")?.focus({ preventScroll: true });
-  }, 2100);
-}
+    <section class="section quiz-section" id="diagnostico" aria-labelledby="quiz-title">
+      <div class="container quiz-wrap">
+        <div class="section-heading centered reveal">
+          <span class="kicker">Diagnóstico de jogo</span>
+          <h2 id="quiz-title">Descubra o que está <em>atrasando</em> sua gameplay.</h2>
+          <p>Responda quatro perguntas rápidas. No final, mostramos o pack mais indicado para o seu momento.</p>
+        </div>
 
-const smoothScroll = (selector, block = "center") => {
-  document.querySelector(selector)?.scrollIntoView({ behavior: "smooth", block });
-};
-
-document.querySelectorAll("[data-scroll-quiz]").forEach(button => button.addEventListener("click", () => {
-  smoothScroll("#diagnostico", "start");
-  setTimeout(() => quizStage.querySelector(".quiz-option")?.focus({ preventScroll: true }), 650);
-}));
-document.querySelectorAll("[data-scroll-pro]").forEach(button => button.addEventListener("click", () => smoothScroll("#pack-pro", "start")));
-document.querySelectorAll("[data-scroll-basic]").forEach(button => button.addEventListener("click", () => {
-  document.querySelector("#sticky-offer")?.classList.remove("visible");
-  smoothScroll("#pack-basico", "start");
-}));
-document.querySelectorAll("[data-pro-checkout]").forEach(link => link.href = PRO_CHECKOUT);
-document.querySelectorAll("[data-basic-checkout]").forEach(link => link.href = BASIC_CHECKOUT);
-
-document.querySelectorAll(".asset-image").forEach(image => {
-  const missing = () => image.classList.add("is-missing");
-  image.addEventListener("error", missing);
-  if (image.complete && image.naturalWidth === 0) missing();
+        <div class="quiz-card reveal">
+          <div class="quiz-header">
+            <div><span>Análise de perfil</span><strong id="quiz-step">Pergunta 1 de 4</strong></div>
+            <b id="quiz-percent">25%</b>
+          </div>
+          <div class="progress"><i id="quiz-progress"></i></div>
+          <div class="quiz-live" aria-live="polite">
+            <div id="quiz-stage"></div>
+            <div class="loading-stage" id="loading-stage" hidden>
+              <div class="crosshair-loader" aria-hidden="true"><i></i><i></i></div>
+              <h3>Analisando seu jogo...</h3>
+              <p id="loading-text">Analisando sua mira...</p>
+              <div class="loading-bars" aria-hidden="true"><span></span><span></span><span></span></div>
+            </div>
+            <div class="result-stage" id="result-stage" hidden>
+              <span class="result-status">Análise finalizada</span>
+              <h3>Diagnóstico concluído</h3>
+              <p>Seu perfil mostra que sua jogabilidade pode estar sendo prejudicada por sensibilidade desajustada, HUD mal configurado, toque sem resposta e falta de otimização.</p>
+              <div class="recommendation">
+                <strong>RECOMENDAÇÃO</strong>
+                <p>Para começar, o Pack Básico já entrega uma base forte. Mas se você quer o pacote mais completo, com bônus, HUDs, sensis de famosos, métodos e suporte prioritário, o <b>Pack Pro é a melhor escolha.</b></p>
+              </div>
+              <div class="result-actions">
+                <button class="button button-primary" type="button" data-scroll-pro>Ver Pack Pro</button>
