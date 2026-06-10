@@ -113,16 +113,21 @@ cards.forEach((_, index) => {
   if (index === 0) dot.classList.add("active");
   dots.append(dot);
 });
-const galleryStep = () => cards[0]?.getBoundingClientRect().width + 13 || 0;
-document.querySelector("[data-gallery-prev]")?.addEventListener("click", () => gallery.scrollBy({ left: -galleryStep(), behavior: "smooth" }));
-document.querySelector("[data-gallery-next]")?.addEventListener("click", () => gallery.scrollBy({ left: galleryStep(), behavior: "smooth" }));
+const galleryStep = () => cards[0]?.getBoundingClientRect().width + 16 || 0;
+const updateGalleryDots = () => {
+  const active = Math.min(Math.round(gallery.scrollLeft / galleryStep()), cards.length - 1);
+  [...dots.children].forEach((dot, index) => dot.classList.toggle("active", index === active));
+};
+const scrollGallery = direction => {
+  gallery.scrollBy({ left: galleryStep() * direction, behavior: "smooth" });
+  setTimeout(updateGalleryDots, 450);
+};
+document.querySelector("[data-gallery-prev]")?.addEventListener("click", () => scrollGallery(-1));
+document.querySelector("[data-gallery-next]")?.addEventListener("click", () => scrollGallery(1));
 let galleryFrame;
 gallery.addEventListener("scroll", () => {
   cancelAnimationFrame(galleryFrame);
-  galleryFrame = requestAnimationFrame(() => {
-    const active = Math.min(Math.round(gallery.scrollLeft / galleryStep()), cards.length - 1);
-    [...dots.children].forEach((dot, index) => dot.classList.toggle("active", index === active));
-  });
+  galleryFrame = requestAnimationFrame(updateGalleryDots);
 }, { passive: true });
 
 const header = document.querySelector("#site-header");
@@ -133,8 +138,9 @@ const updateScrollUI = () => {
   header.classList.toggle("scrolled", scrollY > 18);
   const plansBox = plans.getBoundingClientRect();
   const plansInView = plansBox.top < innerHeight && plansBox.bottom > 0;
+  const interactiveSectionInView = importantActionIsVisible();
   const nearFooter = scrollY + innerHeight > document.documentElement.scrollHeight - 220;
-  sticky.classList.toggle("visible", scrollY > hero.offsetHeight * .72 && !plansInView && !nearFooter);
+  sticky.classList.toggle("visible", scrollY > hero.offsetHeight * .72 && !plansInView && !interactiveSectionInView && !nearFooter);
 };
 addEventListener("scroll", updateScrollUI, { passive: true });
 addEventListener("resize", updateScrollUI, { passive: true });
@@ -218,7 +224,7 @@ function createPopupButton(label, className, action) {
 }
 
 function importantActionIsVisible() {
-  return ["#diagnostico", "#planos", ".final-section"].some(selector => {
+  return ["#diagnostico", "#planos", ".gallery-section", ".reviews-section", ".faq-section", ".final-section"].some(selector => {
     const element = document.querySelector(selector);
     if (!element) return false;
     const bounds = element.getBoundingClientRect();
