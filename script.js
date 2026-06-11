@@ -1,5 +1,5 @@
-const PRO_CHECKOUT = "https://lastlink.com/p/C4894FC56/checkout-payment?af=A74E3D5D7";
-const BASIC_CHECKOUT = "https://lastlink.com/p/C76C7612B/checkout-payment?af=A74E3D5D7";
+const PRO_CHECKOUT = "https://lastlink.com/p/C7002F380/checkout-payment";
+const BASIC_CHECKOUT = "https://lastlink.com/p/C32B4B163/checkout-payment";
 
 const questions = [
   {
@@ -172,8 +172,8 @@ const genericPopupMessages = [
   "O Pack Pro é o mais escolhido da página.",
   "Jogadores estão comparando Básico vs Pro agora.",
   "Por pouca diferença, o Pro entrega muito mais.",
-  "Pack Básico liberado por R$24,87.",
-  "Pack Pro completo por R$29,57.",
+  "Pack Básico por R$15,87.",
+  "Pack Pro completo por R$19,90.",
   "Acesso vitalício disponível nos dois packs.",
   "Pack Pro inclui tudo do Básico + bônus extras."
 ];
